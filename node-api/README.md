@@ -107,6 +107,33 @@ completa está en `.env.example`.
 | `ZERO_TOLERANCE` | `1e-9` | Tolerancia al comparar contra cero en `isDiagonal`. |
 | `OUTPUT_PRECISION` | `10` | Decimales a los que se redondean las estadísticas. |
 | `BODY_LIMIT` | `5mb` | Tamaño máximo del body. Debe coincidir con el `client_max_body_size` de nginx. |
+| `LOG_REQUESTS` | `true` | Registrar una línea por petición. `false` lo desactiva. |
+
+## Logs
+
+El servicio escribe una línea por petición en stdout, que es de donde los recoge
+`docker compose logs -f`:
+
+```
+19:10:54 | 200 |     1.224ms | 172.19.0.1 | POST | /stats
+19:10:42 | 400 |     1.807ms | 172.19.0.1 | POST | /stats
+19:10:09 | 404 |     0.769ms | 172.19.0.1 | GET  | /no-existe
+```
+
+Hora, código de estado, duración, IP del cliente, método y ruta. El formato imita al del
+middleware `logger` de Fiber que usa la API Go, para que los logs de ambos servicios se lean
+igual al seguir una llamada que atraviesa los dos.
+
+La línea se escribe al terminar la respuesta, no al recibir la petición: antes no se conocen
+ni el estado ni la duración.
+
+Detrás del reverse proxy la conexión llega desde el loopback, así que la aplicación usa
+`trust proxy: 'loopback'` para registrar la IP real del cliente que nginx envía en
+`X-Forwarded-For`. Se confía **solo** en el loopback: confiar en cualquier origen permitiría
+falsificar esa cabecera.
+
+Los errores no controlados se registran aparte, con su traza completa, desde el manejador
+central de errores.
 
 ## Tests
 

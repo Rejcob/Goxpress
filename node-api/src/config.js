@@ -39,4 +39,9 @@ export const config = {
 
   /** Tamano maximo del body JSON aceptado. */
   bodyLimit: process.env.BODY_LIMIT ?? '5mb',
+
+  /**
+   * Registrar una linea por peticion HTTP.
+   */
+  logRequests: (process.env.LOG_REQUESTS ?? 'true') !== 'false',
 };

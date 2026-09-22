@@ -5,6 +5,7 @@ import { healthRouter } from './routes/health.routes.js';
 import { statsRouter } from './routes/stats.routes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFound } from './middlewares/notFound.js';
+import { requestLogger } from './middlewares/requestLogger.js';
 
 /**
  * Construye la app.
@@ -15,6 +16,9 @@ import { notFound } from './middlewares/notFound.js';
 export const createApp = () => {
   const app = express();
 
+  app.set('trust proxy', 'loopback');
+  
+  app.use(requestLogger);
   app.use(express.json({ limit: config.bodyLimit }));
 
   app.use(healthRouter);
