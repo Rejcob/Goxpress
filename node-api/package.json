@@ -1,0 +1,19 @@
+{
+  "name": "reto-tecnico-node-api",
+  "version": "1.0.0",
+  "description": "Microservicio de estadisticas. Recibe el resultado de la API Go (matriz rotada o factorizacion QR) y devuelve estadisticas sobre esos datos.",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "license": "MIT"
+}

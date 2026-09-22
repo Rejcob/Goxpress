@@ -1,0 +1,30 @@
+# API de matrices — despliegue independiente.
+#
+# Este servicio se despliega por si solo: no comparte red con la API Node. La
+# alcanza por su dominio publico, por HTTPS, igual que lo haria cualquier otro
+# cliente externo. Eso mantiene ambos servicios desacoplados: pueden vivir en
+# hosts distintos sin cambiar mas que STATS_API_URL.
+#
+# El puerto se publica solo en loopback: el unico que debe alcanzarlo
+# directamente es nginx, que corre nativo en el host y termina el TLS.
+
+services:
+  go-api:
+    build: .
+    image: reto-go-api:latest
+    container_name: reto-go-api
+    environment:
+      # El puerto se define una sola vez y se reutiliza en el mapeo de abajo,
+      # para que cambiarlo en el .env mueva ambas cosas a la vez.
+      PORT: ${PORT:-8080}
+      # Unica variable que cambia entre entornos. En local se sobreescribe con
+      # el archivo .env (ver README).
+      STATS_API_URL: ${STATS_API_URL:-https://inter-express.rejcob.dev/stats}
+      STATS_API_TIMEOUT: ${STATS_API_TIMEOUT:-10s}
+    ports:
+      - "127.0.0.1:${PORT:-8080}:${PORT:-8080}"
+    extra_hosts:
+      # Permite que STATS_API_URL apunte a la API Node corriendo en el host
+      # durante las pruebas locales, sin crear una red compartida.
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

@@ -1,0 +1,23 @@
+# API de estadisticas — despliegue independiente.
+#
+# Este servicio se despliega por si solo: no comparte red con la API Go ni
+# depende de ella. La API Go lo consume desde afuera, por HTTPS, a traves de
+# https://inter-express.rejcob.dev/stats.
+#
+# El puerto se publica solo en loopback: el unico que debe alcanzarlo
+# directamente es nginx, que corre nativo en el host y termina el TLS. El
+# servicio nunca queda expuesto a internet en HTTP plano.
+
+services:
+  node-api:
+    build: .
+    image: reto-node-api:latest
+    container_name: reto-node-api
+    environment:
+      # El puerto se define una sola vez y se reutiliza en el mapeo de abajo,
+      # para que cambiarlo en el .env mueva ambas cosas a la vez.
+      PORT: ${PORT:-3001}
+      NODE_ENV: ${NODE_ENV:-production}
+    ports:
+      - "127.0.0.1:${PORT:-3001}:${PORT:-3001}"
+    restart: unless-stopped
