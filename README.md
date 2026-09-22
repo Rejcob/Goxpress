@@ -77,7 +77,7 @@ lo haría cualquier cliente externo.
 El frontend no se containeriza: es una aplicación Next estática que solo consume una API
 pública, así que se despliega en Vercel. Es un cliente más, al mismo nivel que un `curl`.
 
-El reverse proxy ([`infra/`](./infra)) es nginx, corriendo nativo en el VPS. Es el único
+El reverse proxy es nginx, corriendo nativo en el VPS. Es el único
 proceso que escucha en los puertos 80 y 443 y el que termina el TLS. Las APIs publican su
 puerto solo en `127.0.0.1`, de modo que ninguna queda accesible en HTTP plano desde fuera
 del host.
