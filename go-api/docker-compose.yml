@@ -21,6 +21,9 @@ services:
       # el archivo .env (ver README).
       STATS_API_URL: ${STATS_API_URL:-https://inter-express.rejcob.dev/stats}
       STATS_API_TIMEOUT: ${STATS_API_TIMEOUT:-10s}
+      # Origenes permitidos para llamadas desde un navegador. "*" por defecto:
+      # es una API publica sin sesiones ni cookies.
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
     ports:
       - "127.0.0.1:${PORT:-8080}:${PORT:-8080}"
     extra_hosts:
