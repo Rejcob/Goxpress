@@ -6,9 +6,9 @@ una interfaz web que las consume:
 
 | Servicio                 | Stack             | Dominio público                    |
 | ------------------------ | ----------------- | ---------------------------------- |
-| `[go-api](./go-api)`     | Go + Fiber        | `https://inter-go.rejcob.dev`      |
-| `[node-api](./node-api)` | Node.js + Express | `https://inter-express.rejcob.dev` |
-| `[front](./front)`       | Next.js + React   | `https://goxpres.rejcob.dev`       |
+| [`go-api`](./go-api)     | Go + Fiber        | `https://inter-go.rejcob.dev`      |
+| [`node-api`](./node-api) | Node.js + Express | `https://inter-express.rejcob.dev` |
+| [`front`](./front)       | Next.js + React   | `https://goxpres.rejcob.dev`       |
 
 
 - `go-api` recibe una matriz, le aplica la transformación pedida (rotación o
@@ -77,7 +77,7 @@ lo haría cualquier cliente externo.
 El frontend no se containeriza: es una aplicación Next estática que solo consume una API
 pública, así que se despliega en Vercel. Es un cliente más, al mismo nivel que un `curl`.
 
-El reverse proxy (`[infra/](./infra)`) es nginx, corriendo nativo en el VPS. Es el único
+El reverse proxy ([`infra/`](./infra)) es nginx, corriendo nativo en el VPS. Es el único
 proceso que escucha en los puertos 80 y 443 y el que termina el TLS. Las APIs publican su
 puerto solo en `127.0.0.1`, de modo que ninguna queda accesible en HTTP plano desde fuera
 del host.
@@ -207,8 +207,8 @@ Respuesta:
 ```
 
 El detalle de cada endpoint, los códigos de error y las decisiones propias de cada servicio
-están en su README: `[go-api/README.md](./go-api/README.md)`,
-`[node-api/README.md](./node-api/README.md)` y `[front/README.md](./front/README.md)`.
+están en su README: [`go-api/README.md`](./go-api/README.md),
+[`node-api/README.md`](./node-api/README.md) y [`front/README.md`](./front/README.md).
 
 ## Tests
 
